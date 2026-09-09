@@ -1,22 +1,35 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const User = require("./models/User");
+const express = require('express');
+const mongoose = require('mongoose');
 
 const app = express();
+
 app.use(express.json());
 
-// Conectar a MongoDB
-mongoose.connect("mongodb://localhost/users-db", { useNewUrlParser: true, useUnifiedTopology: true });
+const PORT = process.env.PORT || 4001;
+const MONGO_URI =
+    process.env.MONGO_URI ||
+    'mongodb://127.0.0.1:27017/usersdb';
 
-app.post("/register", async (req, res) => {
- const user = new User(req.body);
- await user.save();
- res.send({ message: "Usuario registrado", user });
-});
+async function startServer() {
+    try {
 
-app.get("/users", async (req, res) => {
- const users = await User.find();
- res.send(users);
-});
+        await mongoose.connect(MONGO_URI);
 
-app.listen(4001, () => console.log("Servicio de Usuarios en http://localhost:4001"));
+        console.log('MongoDB conectado correctamente');
+
+        app.listen(PORT, () => {
+            console.log(
+                `Servicio de Usuarios en http://localhost:${PORT}`
+            );
+        });
+
+    } catch (error) {
+
+        console.error('Error conectando a MongoDB:');
+        console.error(error);
+
+        process.exit(1);
+    }
+}
+
+startServer();
