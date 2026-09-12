@@ -229,6 +229,32 @@ const MONGO_URI =
 
         console.log('MongoDB conectado correctamente');
 
+   /* Registrar un nuevo usuario */
+   
+   app.post("/register", async (req, res) => {
+
+    try {
+
+        const { name, email, password } = req.body;
+
+        res.status(201).json({
+            message: "Usuario registrado correctamente",
+            user: {
+                name,
+                email
+            }
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: "Error registrando usuario",
+            error: error.message
+        });
+
+    }
+});
+
         /* Después se tiene: app.listen(PORT, () => { --> Esta instrucción inicia el servidor Express.
            Por ejemplo, si: PORT = 4001. Express comenzará a escuchar peticiones en: 
            http://localhost:4001
