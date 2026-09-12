@@ -229,8 +229,9 @@ const MONGO_URI =
 
         console.log('MongoDB conectado correctamente');
 
-   /* Registrar un nuevo usuario */
    
+   /* Registrar un nuevo usuario */
+
    app.post("/register", async (req, res) => {
 
     try {
@@ -241,7 +242,8 @@ const MONGO_URI =
             message: "Usuario registrado correctamente",
             user: {
                 name,
-                email
+                email,
+                password
             }
         });
 
