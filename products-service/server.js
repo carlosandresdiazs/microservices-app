@@ -131,7 +131,7 @@ const mongoose = require("mongoose");
    
    const mongoose = require("mongoose");
 
-   onst productSchema = new mongoose.Schema({
+   const productSchema = new mongoose.Schema({
      name: String,
      price: Number,
      stock: Number
