@@ -115,6 +115,8 @@ en un microservicio de usuarios completo con CRUD. */
 
    const mongoose = require('mongoose');
 
+   const User = require("./models/User");
+
 
 /* Aquí se está creando una instancia de Express. Se puede imaginar app como el objeto que 
    representa su servidor web. */
@@ -256,6 +258,49 @@ const MONGO_URI =
 
     }
 });
+
+/* ==========================================
+   RUTAS
+   ========================================== */
+
+/* Comprobar funcionamiento */
+
+app.get("/", (req, res) => {
+
+    res.status(200).json({
+        service: "users-service",
+        status: "running"
+    });
+
+});
+
+/* Obtener todos los usuarios */
+
+app.get("/users", async (req, res) => {
+
+    try {
+
+        const users = await User.find().select("-password");
+
+        res.status(200).json({
+            count: users.length,
+            users: users
+        });
+
+    } catch (error) {
+
+        console.error("Error obteniendo usuarios:", error);
+
+        res.status(500).json({
+            message: "Error al obtener los usuarios",
+            error: error.message
+        });
+
+    }
+
+});
+
+
 
         /* Después se tiene: app.listen(PORT, () => { --> Esta instrucción inicia el servidor Express.
            Por ejemplo, si: PORT = 4001. Express comenzará a escuchar peticiones en: 
